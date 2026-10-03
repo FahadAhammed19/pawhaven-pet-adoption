@@ -1,0 +1,38 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PawHaven{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{% url 'home' %}"><span class="brand-mark">P</span>PawHaven</a>
+    <nav aria-label="Main navigation">
+      <a href="{% url 'pet-list' %}">Find a pet</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}">My requests</a>
+        <a href="{% url 'favorites' %}">Favorites</a>
+        <a href="{% url 'profile' %}">Profile</a>
+        {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+        <form class="inline" action="{% url 'logout' %}" method="post">{% csrf_token %}<button class="nav-button" type="submit">Log out</button></form>
+      {% else %}
+        <a href="{% url 'login' %}">Log in</a>
+        <a class="nav-cta" href="{% url 'register' %}">Join us</a>
+      {% endif %}
+    </nav>
+  </header>
+  {% if messages %}
+    <div class="messages" aria-live="polite">
+      {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}
+    </div>
+  {% endif %}
+  <main>{% block content %}{% endblock %}</main>
+  <footer><div><strong>PawHaven</strong><p>Connecting caring people with pets who need a home.</p></div><a href="/api/">Explore the API</a></footer>
+</body>
+</html>
