@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Meet {{ pet.name }} | PawHaven{% endblock %}
+{% block content %}
+<section class="detail-layout section">
+  <div class="detail-image">{% if pet.image %}<img src="{{ pet.image.url }}" alt="{{ pet.name }}">{% else %}<div class="image-placeholder large"><span>♥</span>{{ pet.animal_type }}</div>{% endif %}<span class="status-pill status-{{ pet.status|lower }}">{{ pet.status }}</span></div>
+  <div class="detail-copy"><span class="eyebrow">Meet your new friend</span><h1>{{ pet.name }}</h1><p class="lead">{{ pet.breed }} · {{ pet.age }} year{{ pet.age|pluralize }} old · {{ pet.gender }}</p><div class="facts"><div><span>Animal</span><strong>{{ pet.animal_type }}</strong></div><div><span>Location</span><strong>{{ pet.location }}</strong></div><div><span>Status</span><strong>{{ pet.get_status_display }}</strong></div></div><h2>About {{ pet.name }}</h2><p>{{ pet.description|linebreaksbr }}</p>
+    <div class="button-row">{% if pet.status == 'Available' %}{% if user.is_authenticated %}<a class="button primary" href="{% url 'apply-for-adoption' pet.pk %}">Apply for adoption</a>{% else %}<a class="button primary" href="{% url 'login' %}?next={% url 'apply-for-adoption' pet.pk %}">Log in to apply</a>{% endif %}{% else %}<div class="adopted-notice">This pet is not currently available for adoption.</div>{% endif %}
+      {% if user.is_authenticated %}<form method="post" action="{% url 'toggle-favorite' pet.pk %}">{% csrf_token %}<button class="button secondary" type="submit">{% if is_favorite %}Remove favorite{% else %}♡ Add to favorites{% endif %}</button></form>{% endif %}</div>
+  </div>
+</section>
+{% endblock %}

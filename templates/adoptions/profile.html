@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% block title %}Profile | PawHaven{% endblock %}
+{% block content %}<section class="section profile"><span class="eyebrow">Your account</span><h1>{{ user.get_full_name|default:user.username }}</h1><div class="profile-card"><div class="avatar">{{ user.username|first|upper }}</div><div><p><span>Username</span><strong>{{ user.username }}</strong></p><p><span>Email</span><strong>{{ user.email|default:'Not provided' }}</strong></p><p><span>Member since</span><strong>{{ user.date_joined|date:"j F Y" }}</strong></p></div></div></section>{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Find a pet | PawHaven{% endblock %}
+{% block content %}
+<section class="page-banner"><span class="eyebrow">Find your companion</span><h1>Every pet deserves a person.</h1><p>Use the filters to find the friend who feels like home.</p></section>
+<section class="listing-layout section">
+  <form class="filter-panel" method="get">
+    <h2>Filter pets</h2>
+    <label>Search<input type="search" name="search" value="{{ request.GET.search }}" placeholder="Name, breed, location..."></label>
+    <label>Animal type<select name="animal_type"><option value="">All types</option>{% for value,label in animal_types %}<option value="{{ value }}" {% if request.GET.animal_type == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    <label>Gender<select name="gender"><option value="">All genders</option>{% for value,label in genders %}<option value="{{ value }}" {% if request.GET.gender == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    <label>Location<input name="location" value="{{ request.GET.location }}" placeholder="e.g. Dhaka"></label>
+    <label>Status<select name="status"><option value="">All statuses</option>{% for value,label in statuses %}<option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    <button class="button primary full" type="submit">Show matches</button><a class="clear-filter" href="{% url 'pet-list' %}">Clear filters</a>
+  </form>
+  <div><div class="results-heading"><h2>{{ page_obj.paginator.count }} companion{{ page_obj.paginator.count|pluralize }}</h2><span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></div><div class="pet-grid compact">{% for pet in page_obj %}{% include 'adoptions/pet_card.html' %}{% empty %}<div class="empty-state">No pets match those filters. Try widening your search.</div>{% endfor %}</div>
+    {% if page_obj.paginator.num_pages > 1 %}<nav class="pagination" aria-label="Pages">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}&search={{ request.GET.search }}&animal_type={{ request.GET.animal_type }}&gender={{ request.GET.gender }}&location={{ request.GET.location }}&status={{ request.GET.status }}">Previous</a>{% endif %}{% for number in page_obj.paginator.page_range %}<a class="{% if number == page_obj.number %}current{% endif %}" href="?page={{ number }}&search={{ request.GET.search }}&animal_type={{ request.GET.animal_type }}&gender={{ request.GET.gender }}&location={{ request.GET.location }}&status={{ request.GET.status }}">{{ number }}</a>{% endfor %}{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}&search={{ request.GET.search }}&animal_type={{ request.GET.animal_type }}&gender={{ request.GET.gender }}&location={{ request.GET.location }}&status={{ request.GET.status }}">Next</a>{% endif %}</nav>{% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% block title %}Favorites | PawHaven{% endblock %}
+{% block content %}<section class="section"><span class="eyebrow">Saved for later</span><h1>Your favorite pets</h1><div class="pet-grid">{% for favorite in favorites %}{% with pet=favorite.pet %}{% include 'adoptions/pet_card.html' %}{% endwith %}{% empty %}<div class="empty-state">You have not saved any pets yet. <a href="{% url 'pet-list' %}">Start exploring.</a></div>{% endfor %}</div></section>{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}PawHaven | Adopt a friend{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">Adopt love. Change a life.</span>
+    <h1>Your new best friend is waiting.</h1>
+    <p>Meet rescued dogs, cats, birds, and rabbits ready to bring joy into your home.</p>
+    <div class="button-row"><a class="button primary" href="{% url 'pet-list' %}">Meet the pets</a><a class="button secondary" href="#how">How it works</a></div>
+  </div>
+  <div class="hero-art" aria-label="Happy pet illustration"><div class="sun"></div><div class="pet-face"><span>•</span><span>ᴥ</span><span>•</span></div><div class="leaf leaf-a"></div><div class="leaf leaf-b"></div></div>
+</section>
+
+<section class="section" id="available">
+  <div class="section-heading"><div><span class="eyebrow">Ready for a home</span><h2>Pets you can meet today</h2></div><a href="{% url 'pet-list' %}">View all pets →</a></div>
+  <div class="pet-grid">
+    {% for pet in featured_pets %}{% include 'adoptions/pet_card.html' %}{% empty %}<div class="empty-state">No available pets yet. Staff can add them through Django Admin.</div>{% endfor %}
+  </div>
+</section>
+
+<section class="how section" id="how">
+  <div><span class="eyebrow">A simple journey</span><h2>Three steps to forever</h2></div>
+  <div class="steps"><article><span>01</span><h3>Discover</h3><p>Search by type, breed, gender, location, or adoption status.</p></article><article><span>02</span><h3>Apply</h3><p>Tell us about your home and why this pet is right for you.</p></article><article><span>03</span><h3>Welcome home</h3><p>Track your request and prepare for a beautiful new chapter.</p></article></div>
+</section>
+{% endblock %}

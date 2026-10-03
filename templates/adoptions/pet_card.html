@@ -1,0 +1,7 @@
+<article class="pet-card">
+  <a class="pet-image" href="{% url 'pet-detail' pet.pk %}">
+    {% if pet.image %}<img src="{{ pet.image.url }}" alt="{{ pet.name }}">{% else %}<div class="image-placeholder"><span>♥</span>{{ pet.animal_type }}</div>{% endif %}
+    <span class="status-pill status-{{ pet.status|lower }}">{{ pet.status }}</span>
+  </a>
+  <div class="pet-card-body"><div class="pet-title"><h3>{{ pet.name }}</h3><span>{{ pet.age }} yr{{ pet.age|pluralize }}</span></div><p>{{ pet.breed }} · {{ pet.gender }}</p><p class="location">⌖ {{ pet.location }}</p><a class="text-link" href="{% url 'pet-detail' pet.pk %}">Meet {{ pet.name }} →</a></div>
+</article>
